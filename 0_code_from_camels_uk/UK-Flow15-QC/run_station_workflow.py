@@ -169,12 +169,14 @@ def main() -> None:
     metadata_path = sample_dir / 'nrfa_metadata.csv'
     nrfa_metadata = pd.read_csv(metadata_path) if metadata_path.exists() else None
 
-    flow_files = sorted([file for file in flow_folder.glob('*.csv') if len(file.stem) == 6 and file.stem.isdigit()])
+    flow_files = sorted([file for file in flow_folder.glob('*.csv')])
+    print(f'Found {len(flow_files)} sample station files in {flow_folder}')
     if not flow_files:
         raise FileNotFoundError(f'No sample station files found in {flow_folder}')
 
     summaries = []
     for flow_file in flow_files:
+        print(f'Processing station file: {flow_file}')
         station_id = flow_file.stem
         try:
             summaries.append(
